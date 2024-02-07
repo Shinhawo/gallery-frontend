@@ -27,10 +27,19 @@
 </template>
 <script>
 import Card from "@/components/Card.vue";
+import axios from "axios";
 
 export default {
   name: "Home",
-  components: {Card}
+  components: {Card},
+  // 터미널에서 axios 설치 후
+  // npm install axios
+  setup() {
+    axios.get( "/api/items").then((res) => {
+      console.log(res);
+    })
+  }
+  //
 }
 </script>
 
