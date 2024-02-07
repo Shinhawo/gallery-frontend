@@ -17,8 +17,8 @@
     <div class="album py-5 bg-body-tertiary">
       <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          <div class="col" v-for="i in 12" :key="i">
-            <Card/>
+          <div class="col" v-for="(item, idx) in state.items" :key="idx">
+            <Card :item="item"/>
           </div>
         </div>
       </div>
@@ -26,8 +26,9 @@
   </div>
 </template>
 <script>
-import Card from "@/components/Card.vue";
 import axios from "axios";
+import {reactive} from "vue";
+import Card from "@/components/Card.vue";
 
 export default {
   name: "Home",
@@ -35,9 +36,17 @@ export default {
   // 터미널에서 axios 설치 후
   // npm install axios
   setup() {
-    axios.get( "/api/items").then((res) => {
-      console.log(res);
+    // items에서 받는 수 만큼 카드 만들기
+    // setup에서 state를 return 했으면 template에서도 사용 가능하다
+    const state = reactive({
+      items: []
     })
+
+    axios.get("/api/items").then(({data}) => {
+      state.items = data;
+    })
+
+    return {state}
   }
   //
 }
